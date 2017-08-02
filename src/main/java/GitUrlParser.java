@@ -138,4 +138,23 @@ public class GitUrlParser {
 
         return gitData;
     }
+    public static String generateInternalRepositoryName(String externalUrl) {
+        GitUrlData urlData = GitUrlParser.parseToObject(externalUrl);
+        if (urlData != null) {
+            String organization = urlData.getOrganization();
+            String repository = urlData.getRepository();
+            if (organization != null && !organization.isEmpty()) {
+                return organization + "/" + repository;
+            } else {
+                return repository;
+            }
+        } else {
+            String[] a = externalUrl.split("/");
+            if (a.length != 0) {
+                return a[a.length - 1];
+            } else {
+                return null;
+            }
+        }
+    }
 }
